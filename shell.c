@@ -45,9 +45,12 @@
 #define WHITESPACE		" ,\t\n"
 
 struct command_t {
-   char *name;
-   int argc;
-   char *argv[MAX_ARGS];
+	// the name of the command to be executed
+    char *name;
+	// holds the number of command line arguments passed to the program
+	int argc;
+	// an array of strings that stores the command-line arguments passed to a program when it is executed
+	char *argv[MAX_ARGS];
 };
 
 /* Function prototypes */
@@ -56,36 +59,36 @@ void printPrompt();
 void readCommand(char *);
 
 int main(int argc, char *argv[]) {
-   int pid;
-   int status;
-   char cmdLine[MAX_LINE_LEN];
-   struct command_t command;
+	int pid;
+	int status;
+	char cmdLine[MAX_LINE_LEN];
+	struct command_t command;
 
-   while (TRUE) {
-      printPrompt();
-      /* Read the command line and parse it */
-      readCommand(cmdLine);
-      parseCommand(cmdLine, &command);
-      command.argv[command.argc] = NULL;
+	while (TRUE) {
+        printPrompt();
+	    /* Read the command line and parse it */
+	    readCommand(cmdLine);
+	    parseCommand(cmdLine, &command);
+	    command.argv[command.argc] = NULL;
 
-	  /*
-	     TODO: if the command is one of the shortcuts you're testing for
-		 either execute it directly or build a new command structure to
-		 execute next
-	  */
+	    /*
+	        TODO: if the command is one of the shortcuts you're testing for
+	         either execute it directly or build a new command structure to
+		    execute next
+	    */
 	  
-      /* Create a child process to execute the command */
-      if ((pid = fork()) == 0) {
-         /* Child executing command */
-         execvp(command.name, command.argv);
-      }
-      /* Wait for the child to terminate */
-      wait(&status); /* EDIT THIS LINE */
-   }
+	   /* Create a child process to execute the command */
+	   if ((pid = fork()) == 0) {
+	      /* Child executing command */
+	      execvp(command.name, command.argv);
+	   }
+	   /* Wait for the child to terminate */
+	   wait(&status); /* EDIT THIS LINE */
+	}
 
-   /* Shell termination */
-   printf("\n\n shell: Terminating successfully\n");
-   return 0;
+	/* Shell termination */
+	printf("\n\n shell: Terminating successfully\n");
+	return 0;
 }
 
 /* End basic shell */
@@ -102,22 +105,22 @@ int main(int argc, char *argv[]) {
  * we increment argc.
  */
 int parseCommand(char *cLine, struct command_t *cmd) {
-   int argc;
-   char **clPtr;
-   /* Initialization */
-   clPtr = &cLine;	/* cLine is the command line */
-   argc = 0;
-   cmd->argv[argc] = (char *) malloc(MAX_ARG_LEN);
-   /* Fill argv[] */
-   while ((cmd->argv[argc] = strsep(clPtr, WHITESPACE)) != NULL) {
-      cmd->argv[++argc] = (char *) malloc(MAX_ARG_LEN);
-   }
+    int argc;
+	char **clPtr;
+	/* Initialization */
+	clPtr = &cLine;	/* cLine is the command line */
+	argc = 0;
+	cmd->argv[argc] = (char *) malloc(MAX_ARG_LEN);
+	/* Fill argv[] */
+	while ((cmd->argv[argc] = strsep(clPtr, WHITESPACE)) != NULL) {
+	    cmd->argv[++argc] = (char *) malloc(MAX_ARG_LEN);
+	}
 
-   /* Set the command name and argc */
-   cmd->argc = argc-1;
-   cmd->name = (char *) malloc(sizeof(cmd->argv[0]));
-   strcpy(cmd->name, cmd->argv[0]);
-   return 1;
+	/* Set the command name and argc */
+	cmd->argc = argc-1;
+	cmd->name = (char *) malloc(sizeof(cmd->argv[0]));
+	strcpy(cmd->name, cmd->argv[0]);
+	return 1;
 }
 
 /* End parseCommand function */
@@ -125,20 +128,20 @@ int parseCommand(char *cLine, struct command_t *cmd) {
 /* Print prompt and read command functions - Nutt pp. 79-80 */
 
 void printPrompt() {
-   /* Build the prompt string to have the machine name,
-    * current directory, or other desired information
-    */
-   promptString = ...;
-   printf("%s ", promptString);
+    /* Build the prompt string to have the machine name,
+	 * current directory, or other desired information
+	 */
+	promptString = ...;
+	printf("%s ", promptString);
 }
 
 void readCommand(char *buffer) {
-   /* This code uses any set of I/O functions, such as those in
-    * the stdio library to read the entire command line into
-    * the buffer. This implementation is greatly simplified,
-    * but it does the job.
-    */
-   fgets(buffer, 80, stdin);
+	/* This code uses any set of I/O functions, such as those in
+	 * the stdio library to read the entire command line into
+	 * the buffer. This implementation is greatly simplified,
+	 * but it does the job.
+	 */
+    fgets(buffer, 80, stdin);
 }
 
 /* End printPrompt and readCommand */
