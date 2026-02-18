@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #define MAX_ARGS		64
 #define MAX_ARG_LEN		16
@@ -64,7 +65,7 @@ int main(int argc, char *argv[]) {
 	char cmdLine[MAX_LINE_LEN];
 	struct command_t command;
 
-	while (TRUE) {
+	while (true) {
         printPrompt();
 	    /* Read the command line and parse it */
 	    readCommand(cmdLine);
