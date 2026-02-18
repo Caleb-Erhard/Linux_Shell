@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
 	    /*
 	        TODO: if the command is one of the shortcuts you're testing for
-	         either execute it directly or build a new command structure to
+	        either execute it directly or build a new command structure to
 		    execute next
 	    */
 	  
@@ -131,8 +131,9 @@ void printPrompt() {
     /* Build the prompt string to have the machine name,
 	 * current directory, or other desired information
 	 */
-	promptString = ...;
-	printf("%s ", promptString);
+	printf("linux (your uanet id)|> ");
+    // force the prompt to display immediately (don't wait for newline)
+    fflush(stdout);
 }
 
 void readCommand(char *buffer) {
