@@ -39,6 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>     // malloc
+#include <sys/wait.h>   // wait / waitpid
 
 #define MAX_ARGS		64
 #define MAX_ARG_LEN		16
@@ -84,7 +86,7 @@ int main(int argc, char *argv[]) {
 	      execvp(command.name, command.argv);
 	   }
 	   /* Wait for the child to terminate */
-	   wait(&status); /* EDIT THIS LINE */
+	   waitpid(pid, &status, 0);
 	}
 
 	/* Shell termination */
