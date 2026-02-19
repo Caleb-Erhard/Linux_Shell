@@ -134,7 +134,7 @@ void printPrompt() {
     /* Build the prompt string to have the machine name,
 	 * current directory, or other desired information
 	 */
-	printf("linux (your uanet id)|> ");
+	printf("linux (ce90)|> ");
     // force the prompt to display immediately (don't wait for newline)
     fflush(stdout);
 }
