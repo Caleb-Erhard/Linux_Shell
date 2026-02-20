@@ -98,6 +98,17 @@ int main(int argc, char *argv[]) {
 		else if (strcmp(command.argv[0], "Q") == 0) {
     		break;
 		}
+		else if (strcmp(command.argv[0], "M") == 0) {
+			// If no file name provided
+			if (command.argc < 2) {
+				printf("M: missing file name\n");
+				continue;
+			}
+
+			// Replace "M" with "nano"
+			command.argv[0] = "nano";
+			command.name = command.argv[0];
+		}
 		else if (strcmp(command.argv[0], "E") == 0) {
 			bool printed = false;
 
