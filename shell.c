@@ -79,13 +79,6 @@ int main(int argc, char *argv[]) {
     		continue;
 		}
 
-		/* 
-		 * Map the single-letter commands to their corresponding full command names.
-		 * This allows the user to enter a single letter to execute common commands.
-		 * For example, 'C' for 'cp', 'D' for 'rm', 'P' for 'more', and 'W' for 'clear'.
-		 * If the user enters a single letter that matches one of these, we replace it
-		 * with the full command name before executing it.
-		*/
 		if (strcmp(command.argv[0], "C") == 0) {
 			command.argv[0] = "cp";
 			command.name = command.argv[0];
@@ -101,6 +94,9 @@ int main(int argc, char *argv[]) {
 		else if (strcmp(command.argv[0], "W") == 0) {
 			command.argv[0] = "clear";
 			command.name = command.argv[0];
+		}
+		else if (strcmp(command.argv[0], "Q") == 0) {
+    		break;
 		}
 	  
 		/* Create a child process to execute the command */
