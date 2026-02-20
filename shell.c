@@ -98,6 +98,28 @@ int main(int argc, char *argv[]) {
 		else if (strcmp(command.argv[0], "Q") == 0) {
     		break;
 		}
+		else if (strcmp(command.argv[0], "E") == 0) {
+			bool printed = false;
+
+			for (int i = 1; i < command.argc; i++) {
+
+				if (command.argv[i] == NULL || command.argv[i][0] == '\0') {
+					continue;
+				}
+
+				if (printed) {
+					putchar(' ');
+				}
+
+				fputs(command.argv[i], stdout);
+				printed = true;
+			}
+			if (printed) {
+				putchar('\n');
+			}
+
+			continue;
+		}
 	  
 		/* Create a child process to execute the command */
 	    if ((pid = fork()) == 0) {
