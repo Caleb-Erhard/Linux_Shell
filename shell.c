@@ -68,25 +68,50 @@ int main(int argc, char *argv[]) {
 	struct command_t command;
 
 	while (true) {
-        printPrompt();
+		printPrompt();
 	    /* Read the command line and parse it */
 	    readCommand(cmdLine);
 	    parseCommand(cmdLine, &command);
 	    command.argv[command.argc] = NULL;
 
-	    /*
-	        TODO: if the command is one of the shortcuts you're testing for
-	        either execute it directly or build a new command structure to
-		    execute next
-	    */
+		/* Check if the command is empty. occurrs when the user presses enter */
+		if (command.argc == 0 || command.argv[0] == NULL || command.argv[0][0] == '\0') {
+    		continue;
+		}
+
+		/* 
+		 * Map the single-letter commands to their corresponding full command names.
+		 * This allows the user to enter a single letter to execute common commands.
+		 * For example, 'C' for 'cp', 'D' for 'rm', 'P' for 'more', and 'W' for 'clear'.
+		 * If the user enters a single letter that matches one of these, we replace it
+		 * with the full command name before executing it.
+		*/
+		if (strcmp(command.argv[0], "C") == 0) {
+			command.argv[0] = "cp";
+			command.name = command.argv[0];
+		}
+		else if (strcmp(command.argv[0], "D") == 0) {
+			command.argv[0] = "rm";
+			command.name = command.argv[0];
+		}
+		else if (strcmp(command.argv[0], "P") == 0) {
+			command.argv[0] = "more";
+			command.name = command.argv[0];
+		}
+		else if (strcmp(command.argv[0], "W") == 0) {
+			command.argv[0] = "clear";
+			command.name = command.argv[0];
+		}
 	  
-	   /* Create a child process to execute the command */
-	   if ((pid = fork()) == 0) {
-	      /* Child executing command */
-	      execvp(command.name, command.argv);
-	   }
-	   /* Wait for the child to terminate */
-	   waitpid(pid, &status, 0);
+		/* Create a child process to execute the command */
+	    if ((pid = fork()) == 0) {
+	       /* Child executing command */
+	       execvp(command.name, command.argv);
+		   perror("execvp");   // print an error message if execvp fails
+    	   exit(1);
+	    }
+	    /* Wait for the child to terminate */
+	    waitpid(pid, &status, 0);
 	}
 
 	/* Shell termination */
@@ -121,7 +146,7 @@ int parseCommand(char *cLine, struct command_t *cmd) {
 
 	/* Set the command name and argc */
 	cmd->argc = argc-1;
-	cmd->name = (char *) malloc(sizeof(cmd->argv[0]));
+	cmd->name = malloc(strlen(cmd->argv[0]) + 1);
 	strcpy(cmd->name, cmd->argv[0]);
 	return 1;
 }
