@@ -131,6 +131,30 @@ int main(int argc, char *argv[]) {
 
 			continue;
 		}
+		else if (strcmp(command.argv[0], "X") == 0) {
+
+			// must have at least one argument after "X" to be a valid command
+			if (command.argc < 2 || command.argv[1] == NULL || command.argv[1][0] == '\0') {
+				printf("X: missing program name\n");
+				continue;
+			}
+
+			// shift argv left by 1 to "remove" the X
+			// before: argv[0]="X", argv[1]="prog", argv[2]="arg1", ...
+			// after:  argv[0]="prog", argv[1]="arg1", ...
+			for (int i = 0; i < command.argc - 1; i++) {
+				command.argv[i] = command.argv[i + 1];
+			}
+
+			// decrease argc because we removed one token
+			command.argc--;
+
+			// NULL-terminate the argv list
+			command.argv[command.argc] = NULL;
+
+			// update name to match new argv[0]
+			command.name = command.argv[0];
+		}
 	  
 		/* Create a child process to execute the command */
 	    if ((pid = fork()) == 0) {
