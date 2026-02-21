@@ -155,6 +155,39 @@ int main(int argc, char *argv[]) {
 			// update name to match new argv[0]
 			command.name = command.argv[0];
 		}
+		else if (strcmp(command.argv[0], "L") == 0) {
+
+			// skip a line
+			putchar('\n');
+			fflush(stdout);
+
+			// run pwd command
+			pid = fork();
+			if (pid == 0) {
+				char *pwd_args[] = { "pwd", NULL };
+				execvp("pwd", pwd_args);
+				perror("execvp");
+				exit(1);
+			}
+			waitpid(pid, &status, 0);
+
+			// skip another line
+			putchar('\n');
+			fflush(stdout);
+
+			// run ls -l
+			pid = fork();
+			if (pid == 0) {
+				char *ls_args[] = { "ls", "-l", NULL };
+				execvp("ls", ls_args);
+				perror("execvp");
+				exit(1);
+			}
+			waitpid(pid, &status, 0);
+
+			// get out of the loop to skip the next fork/exec block
+			continue;
+		}
 	  
 		/* Create a child process to execute the command */
 	    if ((pid = fork()) == 0) {
