@@ -79,45 +79,52 @@ int main(int argc, char *argv[]) {
     		continue;
 		}
 
+		/* Map shorthand C command to cp */
 		if (strcmp(command.argv[0], "C") == 0) {
 			command.argv[0] = "cp";
 			command.name = command.argv[0];
 		}
+		/* Map shorthand D command to rm */
 		else if (strcmp(command.argv[0], "D") == 0) {
 			command.argv[0] = "rm";
 			command.name = command.argv[0];
 		}
+		/* Map shorthand P command to more */
 		else if (strcmp(command.argv[0], "P") == 0) {
 			command.argv[0] = "more";
 			command.name = command.argv[0];
 		}
+		/* Map shorthand W command to clear */
 		else if (strcmp(command.argv[0], "W") == 0) {
 			command.argv[0] = "clear";
 			command.name = command.argv[0];
 		}
+		/* Q exits the shell loop */
 		else if (strcmp(command.argv[0], "Q") == 0) {
     		break;
 		}
 		else if (strcmp(command.argv[0], "M") == 0) {
-			// If no file name provided
+			/* M requires a file name argument */
 			if (command.argc < 2) {
 				printf("M: missing file name\n");
 				continue;
 			}
 
-			// Replace "M" with "nano"
+			/* Replace M with nano so the file opens in the editor */
 			command.argv[0] = "nano";
 			command.name = command.argv[0];
 		}
+		/* E behaves like echo by printing arguments after the command token */
 		else if (strcmp(command.argv[0], "E") == 0) {
 			bool printed = false;
 
 			for (int i = 1; i < command.argc; i++) {
-
+				/* Skip empty tokens produced by whitespace parsing */
 				if (command.argv[i] == NULL || command.argv[i][0] == '\0') {
 					continue;
 				}
 
+				/* Add spacing only between printed arguments */
 				if (printed) {
 					putchar(' ');
 				}
@@ -125,43 +132,47 @@ int main(int argc, char *argv[]) {
 				fputs(command.argv[i], stdout);
 				printed = true;
 			}
+			/* End the echoed line when at least one argument was printed */
 			if (printed) {
 				putchar('\n');
 			}
 
+			/* Echo is handled directly by the shell, so skip fork/exec */
 			continue;
 		}
 		else if (strcmp(command.argv[0], "X") == 0) {
 
-			// must have at least one argument after "X" to be a valid command
+			/* X must be followed by a program name to execute */
 			if (command.argc < 2 || command.argv[1] == NULL || command.argv[1][0] == '\0') {
 				printf("X: missing program name\n");
 				continue;
 			}
 
-			// shift argv left by 1 to "remove" the X
-			// before: argv[0]="X", argv[1]="prog", argv[2]="arg1", ...
-			// after:  argv[0]="prog", argv[1]="arg1", ...
+			/*
+			 * Shift argv left by one slot to remove X.
+			 * Before: argv[0]="X", argv[1]="prog", argv[2]="arg1", ...
+			 * After:  argv[0]="prog", argv[1]="arg1", ...
+			 */
 			for (int i = 0; i < command.argc - 1; i++) {
 				command.argv[i] = command.argv[i + 1];
 			}
 
-			// decrease argc because we removed one token
+			/* Decrease argc to match the shortened argument list */
 			command.argc--;
 
-			// NULL-terminate the argv list
+			/* Null-terminate argv for execvp */
 			command.argv[command.argc] = NULL;
 
-			// update name to match new argv[0]
+			/* Update command name to the real program being invoked */
 			command.name = command.argv[0];
 		}
 		else if (strcmp(command.argv[0], "L") == 0) {
 
-			// skip a line
+			/* Print a blank line before the location/listing output */
 			putchar('\n');
 			fflush(stdout);
 
-			// run pwd command
+			/* Run pwd in a child process and wait for it to finish */
 			pid = fork();
 			if (pid == 0) {
 				char *pwd_args[] = { "pwd", NULL };
@@ -171,11 +182,11 @@ int main(int argc, char *argv[]) {
 			}
 			waitpid(pid, &status, 0);
 
-			// skip another line
+			/* Separate pwd output from ls output with another blank line */
 			putchar('\n');
 			fflush(stdout);
 
-			// run ls -l
+			/* Run ls -l in a child process and wait for completion */
 			pid = fork();
 			if (pid == 0) {
 				char *ls_args[] = { "ls", "-l", NULL };
@@ -185,7 +196,7 @@ int main(int argc, char *argv[]) {
 			}
 			waitpid(pid, &status, 0);
 
-			// get out of the loop to skip the next fork/exec block
+			/* L is fully handled here; skip the generic fork/exec block */
 			continue;
 		}
 	  
