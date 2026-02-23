@@ -199,6 +199,11 @@ int main(int argc, char *argv[]) {
 			/* L is fully handled here; skip the generic fork/exec block */
 			continue;
 		}
+		/* H displays the help manual directly in the shell */
+		else if (strcmp(command.argv[0], "H") == 0) {
+			printHelp();
+			continue;
+		}
 	  
 		/* Create a child process to execute the command */
 	    if ((pid = fork()) == 0) {
@@ -217,6 +222,21 @@ int main(int argc, char *argv[]) {
 }
 
 /* End basic shell */
+
+/* Help (--help) function */
+
+/* Displays the user manual for this shell. */
+void printHelp() {
+    printf("\n");
+    printf("=====================================================\n");
+    printf("          linux (ce90)|> Shell User Manual          \n");
+    printf("=====================================================\n");
+    printf("\n");
+
+    printf("\n");
+}
+
+/* End help function */
 
 /* Parse Command function */
 
