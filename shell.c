@@ -60,6 +60,7 @@ struct command_t {
 int parseCommand(char *, struct command_t *);
 void printPrompt();
 void readCommand(char *);
+void printHelp();
 
 int main(int argc, char *argv[]) {
 	int pid;
