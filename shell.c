@@ -227,13 +227,108 @@ int main(int argc, char *argv[]) {
 
 /* Displays the user manual for this shell. */
 void printHelp() {
-    printf("\n");
+printf("\n");
     printf("=====================================================\n");
     printf("          linux (ce90)|> Shell User Manual          \n");
     printf("=====================================================\n");
+
+    /* Overview */
+    printf("\nOVERVIEW\n");
+    printf("  This is a simple command-line shell for Linux. When you see\n");
+    printf("  the prompt  linux (ce90)|>  the shell is ready to accept a\n");
+    printf("  command. Type a command and press Enter to run it. The shell\n");
+    printf("  will carry out the command and then show the prompt again.\n");
+    printf("  Only one command may be entered per line.\n");
+    printf("  To exit the shell at any time, use the Q command.\n");
+
+    /* General usage */
+    printf("\nUSAGE\n");
+    printf("  linux (ce90)|> COMMAND [arguments]\n");
+    printf("\n");
+    printf("  This shell supports two kinds of commands:\n");
+    printf("    1. Built-in shorthand commands (listed below).\n");
+    printf("    2. Any standard Linux program installed on the system,\n");
+    printf("       such as grep, cat, or gcc. Simply type the program\n");
+    printf("       name and any arguments as you normally would.\n");
+    printf("\n");
+    printf("  NOTE: All built-in commands are case sensitive and must\n");
+    printf("  be typed as capital letters. For example, use Q not q.\n");
+
+    /* Command descriptions */
+    printf("\nCOMMANDS\n");
+
+    printf("\n  C file1 file2  -- Copy\n");
+    printf("    Creates a copy of file1 named file2. file1 is not deleted.\n");
+    printf("    Both file names are required.\n");
+    printf("    Example:  C report.txt report_backup.txt\n");
+
+    printf("\n  D file         -- Delete\n");
+    printf("    Permanently deletes the named file. Use with caution;\n");
+    printf("    deleted files cannot be recovered.\n");
+    printf("    Example:  D oldfile.txt\n");
+
+    printf("\n  E comment      -- Echo\n");
+    printf("    Prints the given text to the screen followed by a new line.\n");
+    printf("    Multiple spaces or tabs between words will be collapsed to\n");
+    printf("    a single space. If no text is provided, a new prompt is shown.\n");
+    printf("    Example:  E Hello World\n");
+
+    printf("\n  H              -- Help\n");
+    printf("    Displays this user manual. No arguments are needed.\n");
+    printf("    Example:  H\n");
+
+    printf("\n  L              -- List\n");
+    printf("    Displays the current directory path followed by a detailed\n");
+    printf("    listing of all files and folders in that directory. The\n");
+    printf("    listing shows file permissions, owner, size, and last\n");
+    printf("    modified date for each item.\n");
+    printf("    Example:  L\n");
+
+    printf("\n  M file         -- Make\n");
+    printf("    Opens the named file in the nano text editor so you can\n");
+    printf("    create or edit it. If the file does not exist it will be\n");
+    printf("    created when you save. To save your work press Ctrl+O,\n");
+    printf("    then Enter to confirm. To exit nano press Ctrl+X.\n");
+    printf("    Example:  M notes.txt\n");
+
+    printf("\n  P file         -- Print\n");
+    printf("    Displays the contents of the named file on the screen one\n");
+    printf("    page at a time. Press Space to advance to the next page\n");
+    printf("    or press Q to stop viewing early.\n");
+    printf("    Example:  P notes.txt\n");
+
+    printf("\n  Q              -- Quit\n");
+    printf("    Exits the shell and returns to the system. Any programs\n");
+    printf("    launched during the session will have already finished\n");
+    printf("    before this point.\n");
+    printf("    Example:  Q\n");
+
+    printf("\n  W              -- Wipe\n");
+    printf("    Clears all text from the screen. The prompt will reappear\n");
+    printf("    at the top. Your files and work are not affected.\n");
+    printf("    Example:  W\n");
+
+    printf("\n  X program      -- Execute\n");
+    printf("    Runs the named program. This is useful for running programs\n");
+    printf("    in the current directory or elsewhere on the system. Any\n");
+    printf("    additional arguments after the program name will be passed\n");
+    printf("    to the program.\n");
+    printf("    Example:  X myprogram\n");
+    printf("    Example:  X myprogram arg1 arg2\n");
+
+    /* Error behavior */
+    printf("\nERRORS\n");
+    printf("  If you type an unrecognized command, the shell will attempt\n");
+    printf("  to run it as a standard Linux program. If no such program\n");
+    printf("  exists, an error message will be displayed and the prompt\n");
+    printf("  will return.\n");
+    printf("  If a required argument is missing (such as a file name for\n");
+    printf("  C, D, M, P, or X), the shell will print a message and\n");
+    printf("  return to the prompt without doing anything.\n");
+
+    printf("\n=====================================================\n");
     printf("\n");
 
-    printf("\n");
 }
 
 /* End help function */
