@@ -317,14 +317,15 @@ printf("\n");
     printf("    Example:  X myprogram arg1 arg2\n");
 
     /* Error behavior */
-    printf("\nERRORS\n");
-    printf("  If you type an unrecognized command, the shell will attempt\n");
-    printf("  to run it as a standard Linux program. If no such program\n");
-    printf("  exists, an error message will be displayed and the prompt\n");
-    printf("  will return.\n");
-    printf("  If a required argument is missing (such as a file name for\n");
-    printf("  C, D, M, P, or X), the shell will print a message and\n");
-    printf("  return to the prompt without doing anything.\n");
+	printf("\nERRORS\n");
+	printf("  If you type an unrecognized command, the shell will attempt\n");
+	printf("  to run it as a standard Linux program. If no such program\n");
+	printf("  exists, an error message will be displayed and the prompt\n");
+	printf("  will return.\n");
+	printf("  If a command is given invalid or missing arguments, the\n");
+	printf("  underlying Linux program will display an appropriate error\n");
+	printf("  message. For example, typing C with only one file name will\n");
+	printf("  produce an error from cp describing the correct usage.\n");
 
     printf("\n=====================================================\n");
     printf("\n");
