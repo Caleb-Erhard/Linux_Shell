@@ -1,27 +1,27 @@
-// ACADEMIC INTEGRITY PLEDGE
-//
-// - I have not used source code obtained from another student nor
-//   any other unauthorized source, either modified or unmodified.
-//
-// - All source code and documentation used in my program is either
-//   my original work or was derived by me from the source code
-//   published in the textbook for this course or presented in
-//   class.
-//
-// - I have not discussed coding details about this project with
-//   anyone other than my instructor. I understand that I may discuss
-//   the concepts of this program with other students and that another
-//   student may help me debug my program so long as neither of us
-//   writes anything during the discussion or modifies any computer
-//   file during the discussion.
-//
-// - I have violated neither the spirit nor letter of these restrictions.
-//
-//
-//
-// Signed: Caleb Erhard Date: 02/18/2026
+/*
+ * ACADEMIC INTEGRITY PLEDGE
+ *
+ * - I have not used source code obtained from another student nor
+ *   any other unauthorized source, either modified or unmodified.
+ *
+ * - All source code and documentation used in my program is either
+ *   my original work or was derived by me from the source code
+ *   published in the textbook for this course or presented in
+ *   class.
+ *
+ * - I have not discussed coding details about this project with
+ *   anyone other than my instructor. I understand that I may discuss
+ *   the concepts of this program with other students and that another
+ *   student may help me debug my program so long as neither of us
+ *   writes anything during the discussion or modifies any computer
+ *   file during the discussion.
+ *
+ * - I have violated neither the spirit nor letter of these restrictions.
+ *
+ * Signed: Caleb Erhard Date: 02/18/2026
+ */
 
-// 3460:426 Lab 1 - Basic C shell rev. 9/10/2020
+/* 3460:426 Lab 1 - Basic C shell rev. 9/10/2020 */
 
 /* Basic shell */
 
@@ -39,8 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include <stdlib.h>     // malloc
-#include <sys/wait.h>   // wait / waitpid
+#include <stdlib.h>     /* malloc */
+#include <sys/wait.h>   /* wait / waitpid */
 
 #define MAX_ARGS		64
 #define MAX_ARG_LEN		16
@@ -48,11 +48,11 @@
 #define WHITESPACE		" ,\t\n"
 
 struct command_t {
-	// the name of the command to be executed
+	/* the name of the command to be executed */
     char *name;
-	// holds the number of command line arguments passed to the program
+	/* holds the number of command line arguments passed to the program */
 	int argc;
-	// an array of strings that stores the command-line arguments passed to a program when it is executed
+	/* an array of strings that stores the command-line arguments passed to a program when it is executed */
 	char *argv[MAX_ARGS];
 };
 
@@ -209,7 +209,7 @@ int main(int argc, char *argv[]) {
 	    if ((pid = fork()) == 0) {
 	       /* Child executing command */
 	       execvp(command.name, command.argv);
-		   perror("execvp");   // print an error message if execvp fails
+		   perror("execvp");   /* print an error message if execvp fails */
     	   exit(1);
 	    }
 	    /* Wait for the child to terminate */
@@ -277,7 +277,7 @@ void printPrompt() {
 	 * current directory, or other desired information
 	 */
 	printf("linux (ce90)|> ");
-    // force the prompt to display immediately (don't wait for newline)
+    /* force the prompt to display immediately (don't wait for newline) */
     fflush(stdout);
 }
 
