@@ -239,6 +239,7 @@ printf("\n");
     printf("  command. Type a command and press Enter to run it. The shell\n");
     printf("  will carry out the command and then show the prompt again.\n");
     printf("  Only one command may be entered per line.\n");
+
     printf("  To exit the shell at any time, use the Q command.\n");
 
     /* General usage */
@@ -250,9 +251,12 @@ printf("\n");
     printf("    2. Any standard Linux program installed on the system,\n");
     printf("       such as grep, cat, or gcc. Simply type the program\n");
     printf("       name and any arguments as you normally would.\n");
+	printf("  	3. Pressing Enter without typing a command will simply\n");
+	printf("  	   display a new prompt.\n");
     printf("\n");
-    printf("  NOTE: All built-in commands are case sensitive and must\n");
-    printf("  be typed as capital letters. For example, use Q not q.\n");
+	printf("  NOTE: Built-in commands must be typed as capital letters.\n");
+	printf("  External Linux commands (such as ls or grep) follow normal\n");
+	printf("  Linux case rules.\n");
 
     /* Command descriptions */
     printf("\nCOMMANDS\n");
@@ -315,6 +319,8 @@ printf("\n");
     printf("    to the program.\n");
     printf("    Example:  X myprogram\n");
     printf("    Example:  X myprogram arg1 arg2\n");
+	printf("    If the program is in the current directory, prefix it with\n");
+	printf("    ./ (example: X ./myprogram).\n");
 
     /* Error behavior */
 	printf("\nERRORS\n");
@@ -329,7 +335,6 @@ printf("\n");
 
     printf("\n=====================================================\n");
     printf("\n");
-
 }
 
 /* End help function */
