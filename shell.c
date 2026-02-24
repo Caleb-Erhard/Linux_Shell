@@ -61,6 +61,7 @@ int parseCommand(char *, struct command_t *);
 void printPrompt();
 void readCommand(char *);
 void printHelp();
+static void expand_alias(struct command_t *cmd);
 
 int main(int argc, char *argv[]) {
 	int pid;
@@ -337,6 +338,16 @@ printf("\n");
     printf("\n=====================================================\n");
     printf("\n");
 }
+
+static void expand_alias(struct command_t *cmd) {
+    if (strcmp(cmd->argv[0], "C") == 0) cmd->argv[0] = "cp";
+    else if (strcmp(cmd->argv[0], "D") == 0) cmd->argv[0] = "rm";
+    else if (strcmp(cmd->argv[0], "P") == 0) cmd->argv[0] = "more";
+    else if (strcmp(cmd->argv[0], "W") == 0) cmd->argv[0] = "clear";
+    else if (strcmp(cmd->argv[0], "M") == 0) cmd->argv[0] = "nano";
+    cmd->name = cmd->argv[0];
+}
+
 
 /* End help function */
 
