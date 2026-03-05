@@ -61,6 +61,7 @@ int parseCommand(char *, struct command_t *);
 void printPrompt();
 void readCommand(char *);
 void printHelp();
+static void expand_alias(struct command_t *cmd);
 
 int main(int argc, char *argv[]) {
 	int pid;
@@ -78,6 +79,34 @@ int main(int argc, char *argv[]) {
 		/* Check if the command is empty. occurrs when the user presses enter */
 		if (command.argc == 0 || command.argv[0] == NULL || command.argv[0][0] == '\0') {
     		continue;
+		}
+
+		/* X runs the command that follows it */
+		if (strcmp(command.argv[0], "X") == 0) {
+
+			/* X must be followed by a program name to execute */
+			if (command.argc < 2 || command.argv[1] == NULL || command.argv[1][0] == '\0') {
+				printf("X: missing program name\n");
+				continue;
+			}
+
+			/*
+			 * Shift argv left by one slot to remove X.
+			 * Before: argv[0]="X", argv[1]="prog", argv[2]="arg1", ...
+			 * After:  argv[0]="prog", argv[1]="arg1", ...
+			 */
+			for (int i = 0; i < command.argc - 1; i++) {
+				command.argv[i] = command.argv[i + 1];
+			}
+
+			/* Decrease argc to match the shortened argument list */
+			command.argc--;
+
+			/* Null-terminate argv for execvp */
+			command.argv[command.argc] = NULL;
+
+			/* Update command name to the real program being invoked */
+			command.name = command.argv[0];
 		}
 
 		/* Map shorthand C command to cp */
@@ -140,32 +169,6 @@ int main(int argc, char *argv[]) {
 
 			/* Echo is handled directly by the shell, so skip fork/exec */
 			continue;
-		}
-		else if (strcmp(command.argv[0], "X") == 0) {
-
-			/* X must be followed by a program name to execute */
-			if (command.argc < 2 || command.argv[1] == NULL || command.argv[1][0] == '\0') {
-				printf("X: missing program name\n");
-				continue;
-			}
-
-			/*
-			 * Shift argv left by one slot to remove X.
-			 * Before: argv[0]="X", argv[1]="prog", argv[2]="arg1", ...
-			 * After:  argv[0]="prog", argv[1]="arg1", ...
-			 */
-			for (int i = 0; i < command.argc - 1; i++) {
-				command.argv[i] = command.argv[i + 1];
-			}
-
-			/* Decrease argc to match the shortened argument list */
-			command.argc--;
-
-			/* Null-terminate argv for execvp */
-			command.argv[command.argc] = NULL;
-
-			/* Update command name to the real program being invoked */
-			command.name = command.argv[0];
 		}
 		else if (strcmp(command.argv[0], "L") == 0) {
 
